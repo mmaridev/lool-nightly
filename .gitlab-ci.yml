@@ -7,6 +7,7 @@ bin:
   stage: binary
   image: debian:stable-backports
   before_script:
+    - grep -e '^deb ' /etc/apt/sources.list | sed -e 's/deb /deb-src /g' >> /etc/apt/sources.list
     - apt update -qq
     - DEBIAN_FRONTEND=noninteractive apt-get install -y git build-essential devscripts libkrb5-dev openssl g++ libssl-dev libcap-dev libtool m4 automake libcppunit-dev libcppunit-doc pkg-config python-polib python3-polib default-jre libpam-dev npm python-lxml python3-lxml translate-toolkit docker.io locales-all libpng16-16 fontconfig adduser cpio findutils nano libpoco-dev libcap2-bin openssl inotify-tools procps libubsan1 sudo
     - apt-get build-dep -y libreoffice
