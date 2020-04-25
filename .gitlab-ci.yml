@@ -15,8 +15,9 @@ bin:
     - "git ls-remote https://git.libreoffice.org/core | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > core-branch"
     - "git ls-remote https://git.libreoffice.org/online | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > online-branch"
     - useradd -s /bin/bash lool
-    - "echo 'lool ALL=(ALL) NOPASSWD: /sbin/setcap' >> /etc/sudoers"
+    - "echo 'lool ALL=(ALL) NOPASSWD: /sbin/setcap /bin/echo' >> /etc/sudoers"
     - git clone --depth=1 https://git.libreoffice.org/online
+    - chown -R lool .
   script:
     - cd online/docker; su -c 'LIBREOFFICE_BRANCH="$(cat ../../core-branch)" LIBREOFFICE_ONLINE_BRANCH="$(cat ../../online-branch)" NO_DOCKER_PUSH="yes" NO_DOCKER_IMAGE="yes" ONLINE_EXTRA_BUILD_OPTIONS="--enable-anonymization --with-max-connections=100000 --with-max-documents=100000 --with-app-branding=/home/lool/branding" ./l10n-docker-nightly.sh' lool
   artifacts:
