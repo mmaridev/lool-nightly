@@ -14,6 +14,7 @@ branches:
         - master
 
 before_install:
+    - sudo apt-get update -qq
     - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git python3-lxml libcap-dev python3-polib libpam-dev libpoco-dev procps inotify-tools build-essentials devscripts libcap2-bin libkrb5-dev cpio libubsan1 libubsan0
     - sudo apt-get build-dep -y libreoffice
     - sudi npm i npm@latest -g
