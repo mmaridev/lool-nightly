@@ -1,4 +1,5 @@
 ---
+dist: eoan
 sudo: required
 language: node_js
 node_js:
@@ -13,7 +14,7 @@ branches:
         - master
 
 before_install:
-    - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git build-essential devscripts libkrb5-dev openssl g++ libssl-dev libcap-dev libtool m4 automake libcppunit-dev libcppunit-doc pkg-config python-polib python3-polib default-jre libpam-dev npm python-lxml python3-lxml translate-toolkit docker.io locales-all libpng16-16 fontconfig adduser cpio findutils nano libpoco-dev libcap2-bin openssl inotify-tools procps libubsan1 sudo
+    - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git build-essential devscripts libkrb5-dev openssl g++ libssl-dev libcap-dev libtool m4 automake libcppunit-dev libcppunit-doc pkg-config python-polib python3-polib default-jre libpam-dev npm python-lxml python3-lxml translate-toolkit docker.io locales-all libpng16-16 fontconfig adduser cpio findutils nano libpoco-dev libcap2-bin openssl inotify-tools procps sudo python3-lxml libcap-dev python3-polib libpam-dev libpoco-dev procps inotify-tools build-essentials devscripts libcap2-bin libkrb5-dev cpio 
     - sudo apt-get build-dep -y libreoffice
     - sudi npm i npm@latest -g
     - "git ls-remote https://git.libreoffice.org/core | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > core-branch"
