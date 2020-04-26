@@ -1,0 +1,30 @@
+---
+sudo: required
+language: node_js
+node_js:
+  - "12"
+git:
+  depth: false
+
+services:
+    - docker
+branches:
+    only:
+        - master
+
+before_install:
+    - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git build-essential devscripts libkrb5-dev openssl g++ libssl-dev libcap-dev libtool m4 automake libcppunit-dev libcppunit-doc pkg-config python-polib python3-polib default-jre libpam-dev npm python-lxml python3-lxml translate-toolkit docker.io locales-all libpng16-16 fontconfig adduser cpio findutils nano libpoco-dev libcap2-bin openssl inotify-tools procps libubsan1 sudo
+    - sudo apt-get build-dep -y libreoffice
+    - sudi npm i npm@latest -g
+    - "git ls-remote https://git.libreoffice.org/core | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > core-branch"
+    - "git ls-remote https://git.libreoffice.org/online | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > online-branch"
+
+
+install:
+    - ./prep-sources
+
+script: >
+    echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    cd online/docker; LIBREOFFICE_BRANCH="$(cat ../../core-branch)" LIBREOFFICE_ONLINE_BRANCH="$(cat ../../online-branch)" DOCKER_HUB_REPO="libreoffice/online" DOCKER_HUB_TAG="$(cat ../../online-branch)" NO_DOCKER_PUSH="yes" ONLINE_EXTRA_BUILD_OPTIONS="--enable-anonymization --with-max-connections=100000 --with-max-documents=100000 --with-app-branding=/home/lool/branding" ./l10n-docker-nightly.sh
+    docker tag libreoffice/online:$(cat ../../online-branch) $CI_REGISTRY/$CI_REGISTRY_USER/lool:$(cat ../../online-branch)
+    docker push $CI_REGISTRY/$CI_REGISTRY_USER/lool:$(cat ../../online-branch)
