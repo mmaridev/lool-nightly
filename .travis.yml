@@ -17,7 +17,6 @@ before_install:
     - sudo apt-get update -qq
     - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git python3-lxml libcap-dev python3-polib libpam-dev libpoco-dev procps inotify-tools devscripts libcap2-bin libkrb5-dev cpio libubsan1 libubsan0
     - sudo apt-get build-dep -y libreoffice
-    - sudo npm i npm@latest -g
     - "git ls-remote https://git.libreoffice.org/core | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > core-branch"
     - "git ls-remote https://git.libreoffice.org/online | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > online-branch"
 
