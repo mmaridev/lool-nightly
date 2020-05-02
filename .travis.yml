@@ -22,6 +22,7 @@ before_install:
 script: >
     echo $CI_REGISTRY;
     docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY";
+    git clone --depth=1 https://git.libreoffice.org/online;
     cd online/docker;
     git ls-remote https://git.libreoffice.org/core | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > core-branch;
     git ls-remote https://git.libreoffice.org/online | cut -f 2 | grep -e '^refs/heads/libreoffice' | tail -1 | rev | cut -d '/' -f 1 | rev > online-branch;
